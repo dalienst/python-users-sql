@@ -22,29 +22,36 @@ def create_account():
     ]
     dbcursor.execute(insert_user, user_records)
     db.commit()
-    print("Account Created Successfully")
+    return "Account Created Successfully"
 
 
 # print(create_account())
 
 
-def login():
-    # username = input("Enter a username: ")
-    # password = input("Enter a password: ")
+def login_user():
     username_query = """
     SELECT username FROM users
     """
     password_query = """
     SELECT password FROM users
     """
-    dbcursor.execute(username_query)
-    for x in dbcursor:
-        print(x)
-    password_data = dbcursor.execute(password_query)
-    # if username == username_data and password == password_data:
-    #     print("Logged in")
-    # else:
-    #     print("Invalid Credentials")
+    username = input("Enter a username: ")
+    usernames = dbcursor.execute(username_query)
+    for usernames in dbcursor:
+        if "".join(usernames) != username:
+            print("Invalid username")
+            break
+        else:
+            print("Username login valid")
+            password = input("Enter a password: ")
+            password_data = dbcursor.execute(password_query)
+            for password_data in dbcursor:
+                if "".join(password_data) == password:
+                    return "Logged in successfully"
+                    break
+                else:
+                    return "Login failed!!!"
+                    break
 
 
-print(login())
+print(login_user())
