@@ -28,30 +28,58 @@ def create_account():
 # print(create_account())
 
 
-def login_user():
-    username_query = """
-    SELECT username FROM users
+# def login_user():
+#     username_query = """
+#     SELECT username FROM users
+#     """
+#     password_query = """
+#     SELECT password FROM users
+#     """
+#     username = input("Enter a username: ")
+#     usernames = dbcursor.execute(username_query)
+#     for usernames in dbcursor:
+#         if "".join(usernames) != username:
+#             print("Invalid username")
+#             break
+#         else:
+#             print("Username login valid")
+#             password = input("Enter a password: ")
+#             password_data = dbcursor.execute(password_query)
+#             for password_data in dbcursor:
+#                 if "".join(password_data) == password:
+#                     return "Logged in successfully"
+#                     break
+#                 else:
+#                     return "Login failed!!!"
+#                     break
+
+
+# print(login_user())
+
+
+def login():
     """
-    password_query = """
-    SELECT password FROM users
+    function to login the user
+    the function fails if the username and password do not match
     """
+
+    user_query = "SELECT username, password FROM users"
+
+    users = dbcursor.execute(user_query)
+    for users in dbcursor.fetchall():
+        user = users
+
     username = input("Enter a username: ")
-    usernames = dbcursor.execute(username_query)
-    for usernames in dbcursor:
-        if "".join(usernames) != username:
-            print("Invalid username")
-            break
-        else:
-            print("Username login valid")
-            password = input("Enter a password: ")
-            password_data = dbcursor.execute(password_query)
-            for password_data in dbcursor:
-                if "".join(password_data) == password:
-                    return "Logged in successfully"
-                    break
-                else:
-                    return "Login failed!!!"
-                    break
+    if username not in user:
+        print("User account does not exist")
+    else:
+        print("Username login valid")
+
+    password = input("Enter a password: ")
+    if password in user:
+        return "Logged in successfully"
+    else:
+        return "Logged in failed!!!"
 
 
-print(login_user())
+print(login())
